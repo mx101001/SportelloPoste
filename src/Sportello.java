@@ -13,12 +13,14 @@ public class Sportello implements Runnable {
      */
     private ListaClienti listaClienti;
     private final int minTempoServizio = 1000;
-    private final int maxTempoServizio = 4000;
+    private final int maxTempoServizio = 3000;
+    private String nome;
     /**
      * constructor
      * @param listaClienti
      */
-    public Sportello(ListaClienti listaClienti) {
+    public Sportello(ListaClienti listaClienti, String nome) {
+        this.nome = nome;
         this.listaClienti = listaClienti;
     }
 
@@ -36,7 +38,7 @@ public class Sportello implements Runnable {
                 Thread.sleep(tempoServizio);
                 //Thread.sleep(1000); //tempo di servizio fisso
                 System.out.println("Servito Cliente Numero \t " + clienteServito+
-                        " dallo sportello");
+                        " dallo sportello" + nome);
             }
         } catch (InterruptedException e) {
             System.out.println("Thread interrotto durante lo sleep");
