@@ -1,3 +1,4 @@
+
 /**
  * Classe che implementa il thread Sportello,
  * che serve i clienti delle
@@ -28,20 +29,24 @@ public class Sportello implements Runnable {
      * TODO: cosa fa?
      * @see Runnable
      */
-    public void run() {
+   public void run() {
         try {
             while (!Thread.interrupted()) {
                 Integer clienteServito = listaClienti.rimuoviCliente();
-                //tempo di servizio variabile nel range [1,4] secondi
+                if (clienteServito == null) {
+                    // nessun altro cliente e lista chiusa
+                    break;
+                }
+                //tempo di servizio variabile nel range [1,3] secondi
                 int tempoServizio = (int) (Math.random() * (maxTempoServizio
                         - minTempoServizio + 1) + minTempoServizio);
                 Thread.sleep(tempoServizio);
-                //Thread.sleep(1000); //tempo di servizio fisso
                 System.out.println("Servito Cliente Numero \t " + clienteServito+
                         " dallo sportello" + nome);
             }
         } catch (InterruptedException e) {
             System.out.println("Thread interrotto durante lo sleep");
+            Thread.currentThread().interrupt();
         } finally {
             System.out.println("Sportello Chiuso");
         }

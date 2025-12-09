@@ -10,7 +10,8 @@ public class ListaClienti {
     private ArrayList<Integer> listaNumeri;
     private int ultimoArrivo;
     private int ultimoServito;
-    private final int numeroMassimo = 10;
+    private final int numeroMassimo = 3;
+    private boolean chiuso = false;
     /**
      * constructor
      * settaggio delle variabili di istanza
@@ -34,6 +35,9 @@ public class ListaClienti {
     public synchronized Integer rimuoviCliente() throws
             InterruptedException {
         while (ultimoServito >= ultimoArrivo) {
+            if(chiuso){
+                return null;
+            }
             System.out.println("non ci sono arrivi dopo l'ultimo servito");
             wait();
         }
@@ -52,6 +56,9 @@ public class ListaClienti {
             notify();
             return ultimoArrivo;
         }
+        //raggiunto il numero massimo segnalo la chiusura
+        chiuso = true;
+        notifyAll();
         return null;
     }
 }
